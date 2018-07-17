@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package go.micro.srv.user;
+
+service UserService {
+	rpc CreateUser(User) returns (Response) {}
+}
+
+message User {
+	 string first_name = 1;
+	 string last_name = 2;
+	 string username = 3;
+	 string password = 4;
+}
+
+message Response {
+	bool create = 1;
+        User user = 2;
+}
