@@ -9,6 +9,7 @@ It is generated from these files:
 
 It has these top-level messages:
 	User
+	UsersRequest
 	Response
 */
 package go_micro_srv_user
@@ -43,6 +44,7 @@ var _ server.Option
 
 type UserService interface {
 	CreateUser(ctx context.Context, in *User, opts ...client.CallOption) (*Response, error)
+	GetUsers(ctx context.Context, in *UsersRequest, opts ...client.CallOption) (UserService_GetUsersService, error)
 }
 
 type userService struct {
@@ -73,15 +75,61 @@ func (c *userService) CreateUser(ctx context.Context, in *User, opts ...client.C
 	return out, nil
 }
 
+func (c *userService) GetUsers(ctx context.Context, in *UsersRequest, opts ...client.CallOption) (UserService_GetUsersService, error) {
+	req := c.c.NewRequest(c.name, "UserService.GetUsers", &UsersRequest{})
+	stream, err := c.c.Stream(ctx, req, opts...)
+	if err != nil {
+		return nil, err
+	}
+	if err := stream.Send(in); err != nil {
+		return nil, err
+	}
+	return &userServiceGetUsers{stream}, nil
+}
+
+type UserService_GetUsersService interface {
+	SendMsg(interface{}) error
+	RecvMsg(interface{}) error
+	Close() error
+	Recv() (*User, error)
+}
+
+type userServiceGetUsers struct {
+	stream client.Stream
+}
+
+func (x *userServiceGetUsers) Close() error {
+	return x.stream.Close()
+}
+
+func (x *userServiceGetUsers) SendMsg(m interface{}) error {
+	return x.stream.Send(m)
+}
+
+func (x *userServiceGetUsers) RecvMsg(m interface{}) error {
+	return x.stream.Recv(m)
+}
+
+func (x *userServiceGetUsers) Recv() (*User, error) {
+	m := new(User)
+	err := x.stream.Recv(m)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
 	CreateUser(context.Context, *User, *Response) error
+	GetUsers(context.Context, *UsersRequest, UserService_GetUsersStream) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) {
 	type userService interface {
 		CreateUser(ctx context.Context, in *User, out *Response) error
+		GetUsers(ctx context.Context, stream server.Stream) error
 	}
 	type UserService struct {
 		userService
@@ -96,4 +144,39 @@ type userServiceHandler struct {
 
 func (h *userServiceHandler) CreateUser(ctx context.Context, in *User, out *Response) error {
 	return h.UserServiceHandler.CreateUser(ctx, in, out)
+}
+
+func (h *userServiceHandler) GetUsers(ctx context.Context, stream server.Stream) error {
+	m := new(UsersRequest)
+	if err := stream.Recv(m); err != nil {
+		return err
+	}
+	return h.UserServiceHandler.GetUsers(ctx, m, &userServiceGetUsersStream{stream})
+}
+
+type UserService_GetUsersStream interface {
+	SendMsg(interface{}) error
+	RecvMsg(interface{}) error
+	Close() error
+	Send(*User) error
+}
+
+type userServiceGetUsersStream struct {
+	stream server.Stream
+}
+
+func (x *userServiceGetUsersStream) Close() error {
+	return x.stream.Close()
+}
+
+func (x *userServiceGetUsersStream) SendMsg(m interface{}) error {
+	return x.stream.Send(m)
+}
+
+func (x *userServiceGetUsersStream) RecvMsg(m interface{}) error {
+	return x.stream.Recv(m)
+}
+
+func (x *userServiceGetUsersStream) Send(m *User) error {
+	return x.stream.Send(m)
 }

@@ -7,6 +7,33 @@ import (
 	"testing"
 )
 
+// Mocks
+type mockGetUsersStream struct {
+	Users []string
+}
+
+func (s mockGetUsersStream) SendMsg(interface{}) error {
+	return nil
+}
+
+func (s mockGetUsersStream) RecvMsg(interface{}) error {
+	return nil
+}
+
+func (s mockGetUsersStream) Close() error {
+	return nil
+}
+
+func (s mockGetUsersStream) Send(user *proto.User) error {
+	updated := append(s.Users, user.Username)
+	s.Users = updated
+	return nil
+}
+
+// Vars
+var response = &proto.Response{Create: false}
+
+// Local DataStore Tests
 var datastore = DataStore{}
 var service = Service{&datastore}
 
@@ -17,7 +44,6 @@ func TestCreate(t *testing.T) {
 		Username:  "tuser",
 		Password:  "Test",
 	}
-
 	user, err := datastore.Create(testUser)
 	if err != nil {
 		t.Errorf("error returned where not expected: %v", err)
@@ -33,6 +59,8 @@ func TestCreate(t *testing.T) {
 
 }
 
+// Service Functions Tests
+// TODO: Tests need to return more than just no error
 func TestCreateUser(t *testing.T) {
 	testUser := &proto.User{
 		FirstName: "test",
@@ -40,9 +68,6 @@ func TestCreateUser(t *testing.T) {
 		Username:  "tuser",
 		Password:  "Test",
 	}
-
-	var response = &proto.Response{Create: false}
-
 	if err := service.CreateUser(context.TODO(), testUser, response); err != nil {
 		t.Errorf("error returned where not expected: %v", err)
 	}
@@ -56,4 +81,15 @@ func TestCreateUser(t *testing.T) {
 		t.Errorf("error not returned where not expected: %v", testUser)
 	}
 
+}
+
+func TestGetUsers(t *testing.T) {
+	t.Run("test that it returns all users error free", func(t *testing.T) {
+		testReq := &proto.UsersRequest{true, 100}
+		testStream := mockGetUsersStream{}
+		err := service.GetUsers(context.TODO(), testReq, testStream)
+		if err != nil {
+			t.Errorf("err returned where not expected: %v", err)
+		}
+	})
 }

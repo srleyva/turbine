@@ -4,6 +4,7 @@ package go.micro.srv.user;
 
 service UserService {
 	rpc CreateUser(User) returns (Response) {}
+        rpc GetUsers(UsersRequest) returns (stream User) {}
 }
 
 message User {
@@ -11,6 +12,12 @@ message User {
 	 string last_name = 2;
 	 string username = 3;
 	 string password = 4;
+         string UID = 5;
+}
+
+message UsersRequest {
+        bool all = 1;
+        int64 count = 2;
 }
 
 message Response {
