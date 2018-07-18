@@ -1,0 +1,12 @@
+# Build Server
+FROM golang:alpine as client
+RUN apk update && apk add make git tree
+RUN mkdir -p $GOPATH/src/github.com/srleyva/turbine/user-service
+WORKDIR $GOPATH/src/github.com/srleyva/turbine/user-service
+ADD ./ ./
+RUN make client  && cp user-service /user-service
+
+# Inject Binary into container
+FROM scratch
+COPY --from=client /user-service /bin/user-client
+ENTRYPOINT ["user-service"]

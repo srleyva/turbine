@@ -10,9 +10,12 @@ pkgs = $(shell go list ./... | grep -v /vendor/ | grep -v /test/)
 gobuild = go build ${LDFLAGS} -o ${BINARY}
 
 server = cmd/server/server.go
+client = cmd/client/client.go
 
 
-all: format build-linux
+all: format build-linux-server
+
+client: format build-linux-client 
 
 format:
 	go fmt $(pkgs)
@@ -26,8 +29,11 @@ gen-proto:
 build:
 	$(gobuild) $(server)
 
-build-linux:
+build-linux-server:
 	CGO_ENABLED=0 GOOS=linux $(gobuild) $(server)
+
+build-linux-client:
+	CGO_ENABLED=0 GOOS=linux $(gobuild) $(client)
 
 docker-build:
 	docker build . -t ${GITHUB_REPO}:${COMMIT}
