@@ -33,10 +33,6 @@
   branch = "master"
   name = "golang.org/x/net"
 
-[[constraint]]
-  name = "google.golang.org/grpc"
-  version = "1.13.0"
-
 [prune]
   go-tests = true
   unused-packages = true

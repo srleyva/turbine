@@ -3,6 +3,7 @@ package main
 import (
 	log "github.com/micro/go-log"
 	micro "github.com/micro/go-micro"
+	k8s "github.com/micro/kubernetes/go/micro"
 	"github.com/sirupsen/logrus"
 	"github.com/srleyva/turbine/user-service/pkg/logging"
 	user "github.com/srleyva/turbine/user-service/pkg/user"
@@ -16,7 +17,7 @@ func main() {
 	logger := micrologrus.NewMicroLogrus(golog)
 	log.SetLogger(logger)
 	datastore := &user.DataStore{}
-	userService := micro.NewService(
+	userService := k8s.NewService(
 		micro.Name("user-service"),
 		micro.WrapHandler(logging.LogWrapper),
 	)
