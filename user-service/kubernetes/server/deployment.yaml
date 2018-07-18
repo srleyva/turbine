@@ -15,7 +15,8 @@ spec:
           command: [
 		"user-service",
 		"--server_address=0.0.0.0:8080",
-		"--broker_address=0.0.0.0:10001"
+		"--broker_address=0.0.0.0:10001",
+                "--registry=kubernetes
 	  ]
           image: turbine-user-service
           imagePullPolicy: IfNotPresent
