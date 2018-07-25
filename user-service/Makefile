@@ -11,12 +11,9 @@ gobuild = go build ${LDFLAGS} -o ${BINARY}
 
 plugin = cmd/server/plugin.go
 server = cmd/server/server.go
-client = cmd/client/client.go
 
 
 all: format build-linux-server
-
-client: format build-linux-client
 
 format:
 	go fmt $(pkgs)
@@ -32,9 +29,6 @@ build:
 
 build-linux-server:
 	CGO_ENABLED=0 GOOS=linux $(gobuild) $(server) $(plugin)
-
-build-linux-client:
-	CGO_ENABLED=0 GOOS=linux $(gobuild) $(client)
 
 docker-build:
 	docker build . -t ${GITHUB_REPO}:${COMMIT}

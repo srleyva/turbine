@@ -9,7 +9,7 @@ import (
 
 // Mocks
 type mockGetUsersStream struct {
-	Users []string
+	Users []proto.User
 }
 
 func (s mockGetUsersStream) SendMsg(interface{}) error {
@@ -25,32 +25,25 @@ func (s mockGetUsersStream) Close() error {
 }
 
 func (s mockGetUsersStream) Send(user *proto.User) error {
-	updated := append(s.Users, user.Username)
+	updated := append(s.Users, *user)
 	s.Users = updated
 	return nil
 }
 
-// Vars
-var response = &proto.Response{Create: false}
-
 // Local DataStore Tests
 var datastore = DataStore{}
 var service = Service{&datastore}
+var testUser = &proto.User{
+	FirstName: "test",
+	LastName:  "user",
+	Username:  "tuser",
+	Password:  "Test",
+}
 
 func TestCreate(t *testing.T) {
-	testUser := &proto.User{
-		FirstName: "test",
-		LastName:  "user",
-		Username:  "tuser",
-		Password:  "Test",
-	}
 	user, err := datastore.Create(testUser)
 	if err != nil {
 		t.Errorf("error returned where not expected: %v", err)
-	}
-
-	if user.GetPassword() != "" {
-		t.Errorf("password returned to client")
 	}
 
 	if !reflect.DeepEqual(testUser, user) {
@@ -60,8 +53,8 @@ func TestCreate(t *testing.T) {
 }
 
 // Service Functions Tests
-// TODO: Tests need to return more than just no error
 func TestCreateUser(t *testing.T) {
+	response := new(proto.UserResponse)
 	testUser := &proto.User{
 		FirstName: "test",
 		LastName:  "user",
@@ -72,8 +65,8 @@ func TestCreateUser(t *testing.T) {
 		t.Errorf("error returned where not expected: %v", err)
 	}
 
-	if !response.Create || !reflect.DeepEqual(testUser, response.User) {
-		t.Errorf("user not create correctly %v", response)
+	if response.User.Password != "" {
+		t.Errorf("Password returned to client on create")
 	}
 
 	testUser.Username = ""
@@ -84,12 +77,14 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestGetUsers(t *testing.T) {
+	testStream := mockGetUsersStream{}
+
 	t.Run("test that it returns all users error free", func(t *testing.T) {
-		testReq := &proto.UsersRequest{true, 100}
-		testStream := mockGetUsersStream{}
+		testReq := &proto.UsersRequest{All: true}
 		err := service.GetUsers(context.TODO(), testReq, testStream)
 		if err != nil {
 			t.Errorf("err returned where not expected: %v", err)
 		}
+
 	})
 }
