@@ -12,13 +12,7 @@
 
 [[projects]]
   name = "github.com/golang/protobuf"
-  packages = [
-    "proto",
-    "ptypes",
-    "ptypes/any",
-    "ptypes/duration",
-    "ptypes/timestamp"
-  ]
+  packages = ["proto"]
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
   version = "v1.1.0"
 
@@ -54,12 +48,6 @@
   name = "github.com/micro/cli"
   packages = ["."]
   revision = "3d2263bb092286dde294a31049c92665f8373820"
-
-[[projects]]
-  name = "github.com/micro/go-grpc"
-  packages = ["."]
-  revision = "52024085c07e420ed8795c95006255a75feb500e"
-  version = "v0.3.0"
 
 [[projects]]
   branch = "master"
@@ -100,14 +88,10 @@
 [[projects]]
   name = "github.com/micro/go-plugins"
   packages = [
-    "client/grpc",
     "registry/kubernetes",
     "registry/kubernetes/client",
     "registry/kubernetes/client/api",
-    "registry/kubernetes/client/watch",
-    "selector/cache",
-    "selector/static",
-    "server/grpc"
+    "registry/kubernetes/client/watch"
   ]
   revision = "de4c86f62c9300f10f4cd2e846618db9e92ae5f2"
   version = "v0.11.0"
@@ -117,12 +101,6 @@
   name = "github.com/micro/go-rcache"
   packages = ["."]
   revision = "a581a57b513351792b9f21fc8b95d87b1c5a95da"
-
-[[projects]]
-  name = "github.com/micro/kubernetes"
-  packages = ["go/micro"]
-  revision = "1b3cb85ccc7a367049117e263edc1a26a98b20b5"
-  version = "v0.1.0"
 
 [[projects]]
   branch = "master"
@@ -135,7 +113,6 @@
   name = "github.com/micro/util"
   packages = [
     "go/lib/addr",
-    "go/lib/grpc",
     "go/lib/net",
     "go/lib/tls"
   ]
@@ -178,6 +155,12 @@
   version = "v0.8.0"
 
 [[projects]]
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
@@ -205,16 +188,10 @@
   packages = [
     "bpf",
     "context",
-    "http/httpguts",
-    "http2",
-    "http2/hpack",
-    "idna",
     "internal/iana",
     "internal/socket",
-    "internal/timeseries",
     "ipv4",
-    "ipv6",
-    "trace"
+    "ipv6"
   ]
   revision = "d0887baf81f4598189d4e12a37c6da86f0bba4d0"
 
@@ -227,68 +204,9 @@
   ]
   revision = "ac767d655b305d4e9612f5f6e33120b9176c4ad4"
 
-[[projects]]
-  name = "golang.org/x/text"
-  packages = [
-    "collate",
-    "collate/build",
-    "internal/colltab",
-    "internal/gen",
-    "internal/tag",
-    "internal/triegen",
-    "internal/ucd",
-    "language",
-    "secure/bidirule",
-    "transform",
-    "unicode/bidi",
-    "unicode/cldr",
-    "unicode/norm",
-    "unicode/rangetable"
-  ]
-  revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
-  version = "v0.3.0"
-
-[[projects]]
-  branch = "master"
-  name = "google.golang.org/genproto"
-  packages = ["googleapis/rpc/status"]
-  revision = "2731d4fa720b67f9fe38e9051a2a9b38e4609260"
-
-[[projects]]
-  name = "google.golang.org/grpc"
-  packages = [
-    ".",
-    "balancer",
-    "balancer/base",
-    "balancer/roundrobin",
-    "codes",
-    "connectivity",
-    "credentials",
-    "encoding",
-    "encoding/proto",
-    "grpclog",
-    "internal",
-    "internal/backoff",
-    "internal/channelz",
-    "internal/grpcrand",
-    "keepalive",
-    "metadata",
-    "naming",
-    "peer",
-    "resolver",
-    "resolver/dns",
-    "resolver/passthrough",
-    "stats",
-    "status",
-    "tap",
-    "transport"
-  ]
-  revision = "168a6198bcb0ef175f7dacec0b8691fc141dc9b8"
-  version = "v1.13.0"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1e7dbfbbd4b97f7bbb15e6de6485e63179cd8da2dd6c390c7aabedd200802a8b"
+  inputs-digest = "60103e43a75dffd5010cd0b02ce371808990335724e1d241e0a6ff25cacf239a"
   solver-name = "gps-cdcl"
   solver-version = 1

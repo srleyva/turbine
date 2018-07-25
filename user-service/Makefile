@@ -41,5 +41,5 @@ docker-build:
 
 # For testing purposes
 consul-start:
-	mkdir /tmp/consul
+	mkdir /tmp/consul || true
 	consul agent -server -bootstrap-expect=1 -data-dir=/tmp/consul -advertise=127.0.0.1 > /tmp/consul/consul.log 2>&1 &
