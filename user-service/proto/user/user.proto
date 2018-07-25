@@ -3,8 +3,9 @@ syntax = "proto3";
 package go.micro.srv.user;
 
 service UserService {
-	rpc CreateUser(User) returns (Response) {}
+	rpc CreateUser(User) returns (UserResponse) {}
         rpc GetUsers(UsersRequest) returns (stream User) {}
+        rpc GetUser(UserRequest) returns (UserResponse) {}
 }
 
 message User {
@@ -15,12 +16,15 @@ message User {
          string UID = 5;
 }
 
+message UserRequest {
+        string username = 1;
+}
+
 message UsersRequest {
         bool all = 1;
         int64 count = 2;
 }
 
-message Response {
-	bool create = 1;
-        User user = 2;
+message UserResponse {
+        User user = 1;
 }

@@ -86,6 +86,17 @@
   version = "v0.9.0"
 
 [[projects]]
+  name = "github.com/micro/go-plugins"
+  packages = [
+    "registry/kubernetes",
+    "registry/kubernetes/client",
+    "registry/kubernetes/client/api",
+    "registry/kubernetes/client/watch"
+  ]
+  revision = "de4c86f62c9300f10f4cd2e846618db9e92ae5f2"
+  version = "v0.11.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/micro/go-rcache"
   packages = ["."]
@@ -144,6 +155,12 @@
   version = "v0.8.0"
 
 [[projects]]
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
   revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
@@ -190,6 +207,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "87d33f1d7f94680047c46b36ff7dbb9a52e7faf92c47c282e32b096f6033bef7"
+  inputs-digest = "60103e43a75dffd5010cd0b02ce371808990335724e1d241e0a6ff25cacf239a"
   solver-name = "gps-cdcl"
   solver-version = 1

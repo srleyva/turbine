@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: default
+  name: user-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          command: [
+		"user-service",
+		"--server_address=0.0.0.0:8080",
+		"--broker_address=0.0.0.0:10001",
+                "--registry=kubernetes
+	  ]
+          image: turbine-user-service
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8080
+            name: user-port
