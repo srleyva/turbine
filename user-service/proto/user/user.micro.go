@@ -9,8 +9,9 @@ It is generated from these files:
 
 It has these top-level messages:
 	User
+	UserRequest
 	UsersRequest
-	Response
+	UserResponse
 */
 package go_micro_srv_user
 
@@ -43,8 +44,9 @@ var _ server.Option
 // Client API for UserService service
 
 type UserService interface {
-	CreateUser(ctx context.Context, in *User, opts ...client.CallOption) (*Response, error)
+	CreateUser(ctx context.Context, in *User, opts ...client.CallOption) (*UserResponse, error)
 	GetUsers(ctx context.Context, in *UsersRequest, opts ...client.CallOption) (UserService_GetUsersService, error)
+	GetUser(ctx context.Context, in *UserRequest, opts ...client.CallOption) (*UserResponse, error)
 }
 
 type userService struct {
@@ -65,9 +67,9 @@ func NewUserService(name string, c client.Client) UserService {
 	}
 }
 
-func (c *userService) CreateUser(ctx context.Context, in *User, opts ...client.CallOption) (*Response, error) {
+func (c *userService) CreateUser(ctx context.Context, in *User, opts ...client.CallOption) (*UserResponse, error) {
 	req := c.c.NewRequest(c.name, "UserService.CreateUser", in)
-	out := new(Response)
+	out := new(UserResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -119,17 +121,29 @@ func (x *userServiceGetUsers) Recv() (*User, error) {
 	return m, nil
 }
 
+func (c *userService) GetUser(ctx context.Context, in *UserRequest, opts ...client.CallOption) (*UserResponse, error) {
+	req := c.c.NewRequest(c.name, "UserService.GetUser", in)
+	out := new(UserResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for UserService service
 
 type UserServiceHandler interface {
-	CreateUser(context.Context, *User, *Response) error
+	CreateUser(context.Context, *User, *UserResponse) error
 	GetUsers(context.Context, *UsersRequest, UserService_GetUsersStream) error
+	GetUser(context.Context, *UserRequest, *UserResponse) error
 }
 
 func RegisterUserServiceHandler(s server.Server, hdlr UserServiceHandler, opts ...server.HandlerOption) {
 	type userService interface {
-		CreateUser(ctx context.Context, in *User, out *Response) error
+		CreateUser(ctx context.Context, in *User, out *UserResponse) error
 		GetUsers(ctx context.Context, stream server.Stream) error
+		GetUser(ctx context.Context, in *UserRequest, out *UserResponse) error
 	}
 	type UserService struct {
 		userService
@@ -142,7 +156,7 @@ type userServiceHandler struct {
 	UserServiceHandler
 }
 
-func (h *userServiceHandler) CreateUser(ctx context.Context, in *User, out *Response) error {
+func (h *userServiceHandler) CreateUser(ctx context.Context, in *User, out *UserResponse) error {
 	return h.UserServiceHandler.CreateUser(ctx, in, out)
 }
 
@@ -179,4 +193,8 @@ func (x *userServiceGetUsersStream) RecvMsg(m interface{}) error {
 
 func (x *userServiceGetUsersStream) Send(m *User) error {
 	return x.stream.Send(m)
+}
+
+func (h *userServiceHandler) GetUser(ctx context.Context, in *UserRequest, out *UserResponse) error {
+	return h.UserServiceHandler.GetUser(ctx, in, out)
 }
