@@ -10,6 +10,8 @@ It is generated from these files:
 It has these top-level messages:
 	LoginRequest
 	LoginResponse
+	RegisterRequest
+	RegisterResponse
 */
 package authentication
 
@@ -43,6 +45,7 @@ var _ server.Option
 
 type AuthenticationService interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...client.CallOption) (*LoginResponse, error)
+	Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*RegisterResponse, error)
 }
 
 type authenticationService struct {
@@ -73,15 +76,27 @@ func (c *authenticationService) Login(ctx context.Context, in *LoginRequest, opt
 	return out, nil
 }
 
+func (c *authenticationService) Register(ctx context.Context, in *RegisterRequest, opts ...client.CallOption) (*RegisterResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthenticationService.Register", in)
+	out := new(RegisterResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AuthenticationService service
 
 type AuthenticationServiceHandler interface {
 	Login(context.Context, *LoginRequest, *LoginResponse) error
+	Register(context.Context, *RegisterRequest, *RegisterResponse) error
 }
 
 func RegisterAuthenticationServiceHandler(s server.Server, hdlr AuthenticationServiceHandler, opts ...server.HandlerOption) {
 	type authenticationService interface {
 		Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error
+		Register(ctx context.Context, in *RegisterRequest, out *RegisterResponse) error
 	}
 	type AuthenticationService struct {
 		authenticationService
@@ -96,4 +111,8 @@ type authenticationServiceHandler struct {
 
 func (h *authenticationServiceHandler) Login(ctx context.Context, in *LoginRequest, out *LoginResponse) error {
 	return h.AuthenticationServiceHandler.Login(ctx, in, out)
+}
+
+func (h *authenticationServiceHandler) Register(ctx context.Context, in *RegisterRequest, out *RegisterResponse) error {
+	return h.AuthenticationServiceHandler.Register(ctx, in, out)
 }

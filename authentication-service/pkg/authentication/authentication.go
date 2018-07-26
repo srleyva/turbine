@@ -21,12 +21,39 @@ func (s *Service) Login(ctx context.Context, req *proto.LoginRequest, res *proto
 		return errors.New("invalid Username or Password")
 	}
 
-	if resp.User.Password == req.Password {
+	if CheckPasswordHash(req.Password, resp.User.Password) {
 		res.Token = "You've got a token"
 		return nil
 	} else {
 		return errors.New("invalid Username or Password")
 	}
 
+	return nil
+}
+
+func (s *Service) Register(ctx context.Context, req *proto.RegisterRequest, res *proto.RegisterResponse) error {
+	if req.Username == "" || req.Password == "" {
+		return errors.New("empty username or password")
+	}
+
+	password, err := HashPassword(req.Password)
+	if err != nil {
+		return err
+	}
+
+	user := userProto.User{
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+		Username:  req.Username,
+		Password:  password,
+	}
+
+	resp, err := s.UserClient.CreateUser(context.Background(), &user)
+	if err != nil {
+		return err
+	}
+	res.Username = resp.User.Username
+	res.UID = resp.User.UID
+	res.Created = true
 	return nil
 }

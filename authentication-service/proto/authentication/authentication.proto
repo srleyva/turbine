@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service AuthenticationService {
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
 }
 
 message LoginRequest {
@@ -12,3 +13,18 @@ message LoginRequest {
 message LoginResponse {
   string token = 1;
 }
+
+message RegisterRequest {
+  string first_name = 1;
+  string last_name = 2;
+  string username = 3;
+  string password = 4;
+}
+
+message RegisterResponse {
+  bool created = 1;
+  string username = 2;
+  string UID = 3;
+}
+
+
