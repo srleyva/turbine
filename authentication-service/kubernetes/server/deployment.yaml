@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: authentication-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: authentication-service
+    spec:
+      containers:
+        - name: authentication-service
+          command: [
+		"authentication-service",
+		"--server_address=0.0.0.0:8080",
+		"--broker_address=0.0.0.0:10001",
+                "--registry=kubernetes"
+	  ]
+          image: sleyva97/authentication-service
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 8080
+            name: auth-port
