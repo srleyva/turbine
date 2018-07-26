@@ -1,11 +1,9 @@
 BINARY = user-service
 VERSION=0.1.0
-COMMIT=$(shell git rev-parse HEAD)
-BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 GITHUB_USERNAME=srleyva
 GITHUB_REPO=${GITHUB_USERNAME}/${BINARY}
 
-LDFLAGS = -ldflags "-X main.VERSION=${VERSION} -X main.COMMIT=${COMMIT} -X main.BRANCH=${BRANCH}"
+LDFLAGS = -ldflags "-X main.VERSION=${VERSION}"
 pkgs = $(shell go list ./... | grep -v /vendor/ | grep -v /test/)
 gobuild = go build ${LDFLAGS} -o ${BINARY}
 
@@ -31,7 +29,7 @@ build-linux-server:
 	CGO_ENABLED=0 GOOS=linux $(gobuild) $(server) $(plugin)
 
 docker-build:
-	docker build . -t ${GITHUB_REPO}:${COMMIT}
+	docker build . -t ${GITHUB_REPO}:${VERSION}
 
 # For testing purposes
 consul-start:
