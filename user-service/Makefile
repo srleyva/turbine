@@ -2,6 +2,7 @@ BINARY = user-service
 VERSION=0.1.0
 GITHUB_USERNAME=srleyva
 GITHUB_REPO=${GITHUB_USERNAME}/${BINARY}
+DOCKER_REPO=sleyva97/$(BINARY)
 
 LDFLAGS = -ldflags "-X main.VERSION=${VERSION}"
 pkgs = $(shell go list ./... | grep -v /vendor/ | grep -v /test/)
@@ -29,7 +30,7 @@ build-linux-server:
 	CGO_ENABLED=0 GOOS=linux $(gobuild) $(server) $(plugin)
 
 docker-build:
-	docker build . -t ${GITHUB_REPO}:${VERSION}
+	docker build . -t ${DOCKER_REPO}:${VERSION}
 
 # For testing purposes
 consul-start:

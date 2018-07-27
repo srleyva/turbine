@@ -17,7 +17,7 @@ spec:
 		"--broker_address=0.0.0.0:10001",
                 "--registry=kubernetes"
 	  ]
-          image: sleyva97/authentication-service
+          image: sleyva97/authentication-service:0.1.0
           imagePullPolicy: Always
           ports:
           - containerPort: 8080

@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: login-demo
+spec:
+  selector:
+    k8s-app: login-demo
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http

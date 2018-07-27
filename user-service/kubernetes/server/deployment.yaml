@@ -16,10 +16,10 @@ spec:
 		"user-service",
 		"--server_address=0.0.0.0:8080",
 		"--broker_address=0.0.0.0:10001",
-                "--registry=kubernetes
+                "--registry=kubernetes"
 	  ]
-          image: turbine-user-service
-          imagePullPolicy: IfNotPresent
+          image: sleyva97/authentication-service:0.1.0
+          imagePullPolicy: Always
           ports:
           - containerPort: 8080
             name: user-port
