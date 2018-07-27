@@ -1,0 +1,58 @@
+package login
+
+import (
+	"github.com/labstack/echo"
+	authProto "github.com/srleyva/turbine/authentication-service/proto/authentication"
+	userProto "github.com/srleyva/turbine/user-service/proto/user"
+	context "golang.org/x/net/context"
+	"net/http"
+)
+
+type Handler struct {
+	Auth authProto.AuthenticationService
+}
+
+func (h *Handler) Login(c echo.Context) (err error) {
+	u := &userProto.User{}
+	if err = c.Bind(u); err != nil {
+		return &echo.HTTPError{Code: http.StatusBadRequest, Message: err}
+	}
+
+	response, err := login(h.Auth, u.Username, u.Password)
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, response)
+}
+
+func (h *Handler) Register(c echo.Context) (err error) {
+	u := &userProto.User{}
+	if err = c.Bind(u); err != nil {
+		return &echo.HTTPError{Code: http.StatusBadRequest, Message: err}
+	}
+
+	response, err := register(h.Auth, u)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusCreated, response)
+
+}
+
+func login(a authProto.AuthenticationService, username, password string) (*authProto.LoginResponse, error) {
+	loginRequest := &authProto.LoginRequest{username, password}
+	resp, err := a.Login(context.Background(), loginRequest)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func register(a authProto.AuthenticationService, user *userProto.User) (*authProto.RegisterResponse, error) {
+	resp, err := a.Register(context.Background(), user)
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}

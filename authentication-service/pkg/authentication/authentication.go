@@ -45,7 +45,7 @@ func (s *Service) Login(ctx context.Context, req *proto.LoginRequest, res *proto
 	return nil
 }
 
-func (s *Service) Register(ctx context.Context, req *proto.RegisterRequest, res *proto.RegisterResponse) error {
+func (s *Service) Register(ctx context.Context, req *userProto.User, res *proto.RegisterResponse) error {
 	if req.Username == "" || req.Password == "" {
 		return errors.New("empty username or password")
 	}
@@ -60,22 +60,15 @@ func (s *Service) Register(ctx context.Context, req *proto.RegisterRequest, res 
 		return err
 	}
 
-	user := userProto.User{
-		FirstName: req.FirstName,
-		LastName:  req.LastName,
-		Username:  req.Username,
-		Password:  password,
-	}
+	user := userProto.User(*req)
+	user.Password = password
 
 	resp, err := s.UserClient.CreateUser(context.Background(), &user)
 	if err != nil {
 		return err
 	}
-	res.Username = resp.User.Username
-	res.UID = resp.User.UID
-	res.FirstName = resp.User.FirstName
-	res.LastName = resp.User.LastName
 	res.Created = true
+	res.User = resp.User
 	return nil
 }
 
