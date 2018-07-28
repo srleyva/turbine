@@ -17,7 +17,7 @@ func main() {
 	log.SetLogger(logger)
 	datastore := &user.DataStore{}
 	userService := micro.NewService(
-		micro.Name("user-service"),
+		micro.Name("go.micro.srv.user"),
 		micro.WrapHandler(logging.LogWrapper),
 	)
 

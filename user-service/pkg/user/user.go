@@ -21,6 +21,9 @@ func (s *Service) CreateUser(ctx context.Context, req *proto.User, res *proto.Us
 	if req.Username == "" || req.Password == "" {
 		return errors.New("empty username or password in request")
 	}
+	if _, err := s.Users.Get(req.Username); err == nil {
+		return errors.New("Username already exists")
+	}
 	req.UID = uuid.NewV4().String()
 	response, err := s.Users.Create(req)
 	if err != nil {
