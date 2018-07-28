@@ -2,10 +2,16 @@ package login
 
 import (
 	"github.com/labstack/echo"
+	"github.com/labstack/gommon/log"
 	authProto "github.com/srleyva/turbine/authentication-service/proto/authentication"
 	userProto "github.com/srleyva/turbine/user-service/proto/user"
 	context "golang.org/x/net/context"
 	"net/http"
+)
+
+const (
+	// TODO Store in Vault
+	Key = "secret"
 )
 
 type Handler struct {
@@ -31,8 +37,13 @@ func (h *Handler) Register(c echo.Context) (err error) {
 		return &echo.HTTPError{Code: http.StatusBadRequest, Message: err}
 	}
 
+	log.Info("User: ", u)
+
 	response, err := register(h.Auth, u)
 	if err != nil {
+		if err.Error() == "empty username or password" {
+			return &echo.HTTPError{Code: http.StatusBadRequest, Message: err}
+		}
 		return err
 	}
 

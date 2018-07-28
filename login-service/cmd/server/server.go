@@ -1,12 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"github.com/micro/cli"
 	micro "github.com/micro/go-micro"
 	authProto "github.com/srleyva/turbine/authentication-service/proto/authentication"
-	userProto "github.com/srleyva/turbine/user-service/proto/user"
-	context "golang.org/x/net/context"
+
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+	"github.com/srleyva/turbine/login-service/pkg/login"
 )
 
 var (
@@ -15,43 +16,30 @@ var (
 )
 
 func main() {
+	// Initialize microservice clients
 	service := micro.NewService()
-
 	service.Init(micro.Flags(cli.StringFlag{
 		Name:        "service_name",
 		Value:       "go.micro.srv.authentication",
 		Destination: &serviceName,
 	}))
-
 	auth := authProto.NewAuthenticationService(serviceName, service.Client())
 
-	if err := register(auth, userProto.User{Username: "sleyva", Password: "test"}); err != nil {
-		fmt.Println(err)
-	}
+	// Initialize Server
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningKey: []byte(login.Key),
+		Skipper: func(c echo.Context) bool {
+			if c.Path() == "/login" || c.Path() == "/register" {
+				return true
+			}
+			return false
+		},
+	}))
 
-	if err := login(auth, "sleyva", "test4"); err != nil {
-		fmt.Printf("err: %v", err)
-		return
-	}
-}
-
-func login(a authProto.AuthenticationService, username, password string) error {
-	loginRequest := &authProto.LoginRequest{username, password}
-	resp, err := a.Login(context.Background(), loginRequest)
-	if err != nil {
-		fmt.Errorf("error: %v", err)
-		return err
-	}
-	fmt.Println(resp)
-	return nil
-}
-
-func register(a authProto.AuthenticationService, user userProto.User) error {
-	resp, err := a.Register(context.Background(), &user)
-	if err != nil {
-		fmt.Errorf("error: %v", err)
-		return err
-	}
-	fmt.Println(resp)
-	return nil
+	h := login.Handler{auth}
+	e.POST("/login", h.Login)
+	e.POST("/register", h.Register)
+	e.Logger.Fatal(e.Start(":1323"))
 }

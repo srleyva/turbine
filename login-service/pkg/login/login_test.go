@@ -1,10 +1,10 @@
-package main
+package login_test
 
 import (
 	"github.com/labstack/echo"
 	"github.com/micro/go-micro/client"
 	authProto "github.com/srleyva/turbine/authentication-service/proto/authentication"
-	"github.com/srleyva/turbine/login-service/pkg/login"
+	. "github.com/srleyva/turbine/login-service/pkg/login"
 	userProto "github.com/srleyva/turbine/user-service/proto/user"
 	context "golang.org/x/net/context"
 	"net/http"
@@ -30,7 +30,7 @@ func (m *mockAuthService) Register(ctx context.Context, req *userProto.User, opt
 // Set Up
 var (
 	mockauth     = mockAuthService{}
-	loginHandler = login.Handler{&mockauth}
+	loginHandler = Handler{&mockauth}
 	userJSON     = `{"username":"sleyva","password":"test"}`
 )
 
