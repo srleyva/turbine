@@ -6,7 +6,7 @@ GIT_USERNAME=srleyva
 GIT_REPO=${GIT_USERNAME}/${BINARY}
 
 LDFLAGS = -ldflags "-X main.VERSION=${VERSION}" #TODO -X main.COMMIT=${COMMIT} -X main.BRANCH=${BRANCH}"
-target = server/cmd/server/server.go
+target = cmd/server/server.go
 pkgs = $(shell go list ./... | grep -v /vendor/ | grep -v /test/)
 gobuild = go build ${LDFLAGS} -o ${BINARY} ${target}
 

@@ -4,13 +4,13 @@ RUN mkdir /tmp/wkdir
 WORKDIR /tmp/wkdir
 ADD ./client ./
 RUN npm install -g @angular/cli && npm install
-RUN ng build -- --prod --environment prod --progress=false --base-href /congregation-publishers/ --base-href=/static/
+RUN ng build --prod --build-optimizer=false --base-href=/static/
 
 # Build Go App
 FROM golang:alpine AS server
-RUN apk update && apk add ca-certificates && apk add make git
-RUN mkdir -p $GOPATH/src/github.com/srleyva/Windmill/authentication
-WORKDIR $GOPATH/src/github.com/srleyva/Windmill/authentication
+RUN apk update && apk add make git
+RUN mkdir -p $GOPATH/src/github.com/srleyva/turbine/login-service
+WORKDIR $GOPATH/src/github.com/srleyva/turbine/login-service
 ADD ./ ./
 RUN make && cp login /login
 
@@ -19,5 +19,5 @@ FROM scratch
 WORKDIR /app
 COPY --from=client /tmp/wkdir/dist/ /app/wwwroot
 COPY --from=server /login /app
-ENTRYPOINT [ "/app/login" ]
+ENTRYPOINT [ "/app/login", "--app_dir", "/app/wwwroot" ]
 
