@@ -1,0 +1,19 @@
+mode: set
+github.com/srleyva/turbine/login-service/pkg/login/login.go:21.53,23.33 2 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:27.2,28.16 2 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:31.2,31.40 1 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:23.33,25.3 1 0
+github.com/srleyva/turbine/login-service/pkg/login/login.go:28.16,30.3 1 0
+github.com/srleyva/turbine/login-service/pkg/login/login.go:34.56,36.33 2 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:40.2,43.16 3 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:50.2,50.45 1 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:36.33,38.3 1 0
+github.com/srleyva/turbine/login-service/pkg/login/login.go:43.16,44.50 1 0
+github.com/srleyva/turbine/login-service/pkg/login/login.go:47.3,47.13 1 0
+github.com/srleyva/turbine/login-service/pkg/login/login.go:44.50,46.4 1 0
+github.com/srleyva/turbine/login-service/pkg/login/login.go:54.108,57.16 3 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:60.2,60.18 1 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:57.16,59.3 1 0
+github.com/srleyva/turbine/login-service/pkg/login/login.go:63.109,65.16 2 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:68.2,68.18 1 1
+github.com/srleyva/turbine/login-service/pkg/login/login.go:65.16,67.3 1 0

@@ -29,7 +29,7 @@ export class AuthenticationService {
             })
             .catch(e => {
                 console.log(e);
-                return Observable.throw(e.error.message);
+                return Observable.throw(e.error);
             });
     }
 

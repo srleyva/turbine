@@ -26,7 +26,7 @@ func (h *Handler) Login(c echo.Context) (err error) {
 
 	response, err := login(h.Auth, u.Username, u.Password)
 	if err != nil {
-		return err
+		return &echo.HTTPError{Code: http.StatusBadRequest, Message: err}
 	}
 	return c.JSON(http.StatusOK, response)
 }
