@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular2-registration-login-example-cli": {
+    "login": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -48,18 +48,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular2-registration-login-example-cli:build"
+            "browserTarget": "login:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular2-registration-login-example-cli:build:production"
+              "browserTarget": "login:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular2-registration-login-example-cli:build"
+            "browserTarget": "login:build"
           }
         },
         "test": {
@@ -93,7 +93,7 @@
         }
       }
     },
-    "angular2-registration-login-example-cli-e2e": {
+    "login-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -102,7 +102,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "angular2-registration-login-example-cli:serve"
+            "devServerTarget": "login:serve"
           }
         },
         "lint": {
@@ -119,7 +119,7 @@
       }
     }
   },
-  "defaultProject": "angular2-registration-login-example-cli",
+  "defaultProject": "login",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
