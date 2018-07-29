@@ -31,7 +31,7 @@ func main() {
 	e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 		SigningKey: []byte(login.Key),
 		Skipper: func(c echo.Context) bool {
-			if c.Path() == "/login" || c.Path() == "/register" {
+			if c.Path() == "/login" || c.Path() == "/register" || c.Path() == "/" {
 				return true
 			}
 			return false
@@ -39,6 +39,7 @@ func main() {
 	}))
 
 	h := login.Handler{auth}
+	e.Static("/", "dist")
 	e.POST("/login", h.Login)
 	e.POST("/register", h.Register)
 	e.Logger.Fatal(e.Start(":1323"))
