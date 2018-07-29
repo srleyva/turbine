@@ -124,6 +124,17 @@
   version = "v0.10.0"
 
 [[projects]]
+  name = "github.com/micro/go-plugins"
+  packages = [
+    "registry/kubernetes",
+    "registry/kubernetes/client",
+    "registry/kubernetes/client/api",
+    "registry/kubernetes/client/watch"
+  ]
+  revision = "de4c86f62c9300f10f4cd2e846618db9e92ae5f2"
+  version = "v0.11.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/micro/go-rcache"
   packages = ["."]
@@ -235,6 +246,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fc2140588869170c05d4ed68bbc8cac1c41eb7237a0ab106caa536ed24cb33f9"
+  inputs-digest = "cb2bc6fe4490854ee3fbf9acf6cade7f7813696ef56280ff17a70e6b84bcf166"
   solver-name = "gps-cdcl"
   solver-version = 1

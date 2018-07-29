@@ -18,6 +18,6 @@ RUN make && cp login /login
 FROM scratch
 WORKDIR /app
 COPY --from=client /tmp/wkdir/dist/ /app/wwwroot
-COPY --from=server /login /app
-ENTRYPOINT [ "/app/login", "--app_dir", "/app/wwwroot" ]
+COPY --from=server /login /bin/login-service
+ENTRYPOINT [ "login-service", "--app_dir", "/app/wwwroot" ]
 

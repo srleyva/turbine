@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: login-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: login-service
+    spec:
+      containers:
+        - name: login-service
+          command: [
+		"login-service",
+                "--registry=kubernetes"
+	  ]
+          image: sleyva97/login-service:0.1.0
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 1323
+            name: login-port
