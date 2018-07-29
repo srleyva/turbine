@@ -1,7 +1,6 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  namespace: default
   name: user-service
 spec:
   replicas: 1
@@ -18,7 +17,7 @@ spec:
 		"--broker_address=0.0.0.0:10001",
                 "--registry=kubernetes"
 	  ]
-          image: sleyva97/authentication-service:0.1.0
+          image: sleyva97/user-service:0.1.0
           imagePullPolicy: Always
           ports:
           - containerPort: 8080
