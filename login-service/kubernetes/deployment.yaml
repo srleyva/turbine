@@ -4,6 +4,9 @@ metadata:
   name: login-service
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: login-service
   template:
     metadata:
       labels:

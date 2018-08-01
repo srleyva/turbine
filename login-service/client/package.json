@@ -1,5 +1,5 @@
 {
-  "name": "angular2-registration-login-example-cli",
+  "name": "login",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -21,10 +21,15 @@
     "@angular/platform-browser-dynamic": "^6.0.0-rc.5",
     "@angular/router": "^6.0.0-rc.5",
     "@ng-bootstrap/ng-bootstrap": "^2.1.2",
+    "bootstrap": "^4.1.1",
+    "bootswatch": "^4.1.1",
     "core-js": "^2.5.7",
+    "font-awesome": "^4.7.0",
+    "lodash": "^4.17.10",
     "npm": "^6.1.0",
     "rxjs": "^6.2.1",
     "rxjs-compat": "^6.2.1",
+    "stringstream": "0.0.6",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
