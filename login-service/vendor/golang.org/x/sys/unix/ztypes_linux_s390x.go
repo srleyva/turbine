@@ -1902,3 +1902,13 @@ const (
 	BLKPG_DEL_PARTITION    = 0x2
 	BLKPG_RESIZE_PARTITION = 0x3
 )
+<<<<<<< Updated upstream
+=======
+
+const (
+	NETNSA_NONE = 0x0
+	NETNSA_NSID = 0x1
+	NETNSA_PID  = 0x2
+	NETNSA_FD   = 0x3
+)
+>>>>>>> Stashed changes

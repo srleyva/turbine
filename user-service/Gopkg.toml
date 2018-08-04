@@ -26,8 +26,36 @@
 
 
 [[constraint]]
+  name = "github.com/golang/mock"
+  version = "1.1.1"
+
+[[constraint]]
   name = "github.com/golang/protobuf"
   version = "1.1.0"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/micro/go-log"
+
+[[constraint]]
+  name = "github.com/micro/go-micro"
+  version = "0.10.0"
+
+[[constraint]]
+  name = "github.com/micro/go-plugins"
+  version = "0.11.0"
+
+[[constraint]]
+  name = "github.com/satori/go.uuid"
+  version = "1.2.0"
+
+[[constraint]]
+  name = "github.com/sirupsen/logrus"
+  version = "1.0.6"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/tudurom/micro-logrus"
 
 [[constraint]]
   branch = "master"

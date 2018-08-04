@@ -17,6 +17,12 @@
   version = "v0.1.0"
 
 [[projects]]
+  name = "github.com/golang/mock"
+  packages = ["gomock"]
+  revision = "c34cdb4725f4c3844d095133c6e40e448b86589b"
+  version = "v1.1.1"
+
+[[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
@@ -28,8 +34,8 @@
     "api",
     "watch"
   ]
-  revision = "39f93f011e591c842acc8053a7f5972aa6e592fd"
-  version = "v1.2.1"
+  revision = "e716d1b5f8be252b3e53906c6d5632e0228f30fa"
+  version = "v1.2.2"
 
 [[projects]]
   branch = "master"
@@ -166,7 +172,7 @@
   branch = "master"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
-  revision = "3864e76763d94a6df2f9960b16a20a33da9f9a66"
+  revision = "58046073cbffe2f25d425fe1331102f55cf719de"
 
 [[projects]]
   branch = "master"
@@ -193,13 +199,15 @@
   version = "v0.8.0"
 
 [[projects]]
-  branch = "master"
+  branch = "style"
   name = "github.com/srleyva/turbine"
   packages = [
+    "authentication-service/mocks",
     "authentication-service/proto/authentication",
+    "user-service/mocks",
     "user-service/proto/user"
   ]
-  revision = "1c52202002152cfcec93f07f5a65a4dc0a05381c"
+  revision = "9fc695af5aa0580f6b8a8e83e8e0520b1691cd89"
 
 [[projects]]
   branch = "master"
@@ -222,7 +230,7 @@
     "ed25519",
     "ed25519/internal/edwards25519"
   ]
-  revision = "c126467f60eb25f8f27e5a981f32a87e3965053f"
+  revision = "56440b844dfe139a8ac053f4ecac0b20b79058f4"
 
 [[projects]]
   branch = "master"
@@ -235,17 +243,17 @@
     "ipv4",
     "ipv6"
   ]
-  revision = "3673e40ba22529d22c3fd7c93e97b0ce50fa7bdd"
+  revision = "f4c29de78a2a91c00474a2e689954305c350adf9"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "bd9dbc187b6e1dacfdd2722a87e83093c2d7bd6e"
+  revision = "0ffbfd41fbef8ffcf9b62b0b0aa3a5873ed7a4fe"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "cb2bc6fe4490854ee3fbf9acf6cade7f7813696ef56280ff17a70e6b84bcf166"
+  inputs-digest = "a0a093a423568fa9ca048aec4a65d5211304fa96bc6c3de56dae0c5f1a106df3"
   solver-name = "gps-cdcl"
   solver-version = 1

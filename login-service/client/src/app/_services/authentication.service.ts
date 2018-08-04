@@ -33,6 +33,16 @@ export class AuthenticationService {
             });
     }
 
+    register(user) {
+	let apiURL = `${this.apiRoot}/register`;
+	let body = JSON.stringify(user)
+	return this.http.post<any>(apiURL, body, httpOptions)
+	    .catch(e => {
+		console.log(e);
+		return Observable.throw(e.error);
+	    });
+    }
+
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

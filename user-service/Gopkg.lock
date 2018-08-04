@@ -11,6 +11,12 @@
   version = "v0.1.0"
 
 [[projects]]
+  name = "github.com/golang/mock"
+  packages = ["gomock"]
+  revision = "c34cdb4725f4c3844d095133c6e40e448b86589b"
+  version = "v1.1.1"
+
+[[projects]]
   name = "github.com/golang/protobuf"
   packages = ["proto"]
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
@@ -22,8 +28,8 @@
     "api",
     "watch"
   ]
-  revision = "39f93f011e591c842acc8053a7f5972aa6e592fd"
-  version = "v1.2.1"
+  revision = "e716d1b5f8be252b3e53906c6d5632e0228f30fa"
+  version = "v1.2.2"
 
 [[projects]]
   branch = "master"
@@ -82,8 +88,8 @@
     "transport/codec",
     "transport/http"
   ]
-  revision = "5372707d0ec1ebd736bec36818ddb2e700606589"
-  version = "v0.9.0"
+  revision = "88505388c1d32136d5203876218f5f54d53a0e46"
+  version = "v0.10.0"
 
 [[projects]]
   name = "github.com/micro/go-plugins"
@@ -128,7 +134,7 @@
   branch = "master"
   name = "github.com/mitchellh/go-homedir"
   packages = ["."]
-  revision = "3864e76763d94a6df2f9960b16a20a33da9f9a66"
+  revision = "58046073cbffe2f25d425fe1331102f55cf719de"
 
 [[projects]]
   branch = "master"
@@ -163,8 +169,8 @@
 [[projects]]
   name = "github.com/sirupsen/logrus"
   packages = ["."]
-  revision = "c155da19408a8799da419ed3eeb0cb5db0ad5dbc"
-  version = "v1.0.5"
+  revision = "3e01752db0189b9157070a0e1668a620f9a85da2"
+  version = "v1.0.6"
 
 [[projects]]
   branch = "master"
@@ -180,7 +186,7 @@
     "ed25519/internal/edwards25519",
     "ssh/terminal"
   ]
-  revision = "a49355c7e3f8fe157a85be2f77e6e269a0f89602"
+  revision = "56440b844dfe139a8ac053f4ecac0b20b79058f4"
 
 [[projects]]
   branch = "master"
@@ -193,7 +199,7 @@
     "ipv4",
     "ipv6"
   ]
-  revision = "d0887baf81f4598189d4e12a37c6da86f0bba4d0"
+  revision = "f4c29de78a2a91c00474a2e689954305c350adf9"
 
 [[projects]]
   branch = "master"
@@ -202,11 +208,11 @@
     "unix",
     "windows"
   ]
-  revision = "ac767d655b305d4e9612f5f6e33120b9176c4ad4"
+  revision = "0ffbfd41fbef8ffcf9b62b0b0aa3a5873ed7a4fe"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "60103e43a75dffd5010cd0b02ce371808990335724e1d241e0a6ff25cacf239a"
+  inputs-digest = "cc7b404773533f870f57f5d7046e724088c10ddfbe00b0153378ad178c2990de"
   solver-name = "gps-cdcl"
   solver-version = 1

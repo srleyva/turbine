@@ -46,8 +46,14 @@ const (
 	// ALPNProto is the ALPN protocol name used by a CA server when validating
 	// tls-alpn-01 challenges.
 	//
+<<<<<<< Updated upstream
 	// Package users must ensure their servers can negotiate the ACME ALPN
 	// in order for tls-alpn-01 challenge verifications to succeed.
+=======
+	// Package users must ensure their servers can negotiate the ACME ALPN in
+	// order for tls-alpn-01 challenge verifications to succeed.
+	// See the crypto/tls package's Config.NextProtos field.
+>>>>>>> Stashed changes
 	ALPNProto = "acme-tls/1"
 )
 

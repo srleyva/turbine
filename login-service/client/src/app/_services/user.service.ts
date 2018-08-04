@@ -7,7 +7,6 @@ import { User } from '../_models/index';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    // TODO: In k8s this will not be localhost but name of k8s service
     apiRoot:string = '/auth';
 
     getAll() {
@@ -24,7 +23,7 @@ export class UserService {
     }
 
     update(user: User) {
-        return this.http.put('/api/users/' + user.id, user);
+        return this.http.put('/api/users/' + user.uid, user);
     }
 
     delete(id: number) {

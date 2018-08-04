@@ -21,8 +21,20 @@ type CAConfig struct {
 	ModifyIndex uint64
 }
 
+<<<<<<< Updated upstream
 // ConsulCAProviderConfig is the config for the built-in Consul CA provider.
 type ConsulCAProviderConfig struct {
+=======
+// CommonCAProviderConfig is the common options available to all CA providers.
+type CommonCAProviderConfig struct {
+	LeafCertTTL time.Duration
+}
+
+// ConsulCAProviderConfig is the config for the built-in Consul CA provider.
+type ConsulCAProviderConfig struct {
+	CommonCAProviderConfig `mapstructure:",squash"`
+
+>>>>>>> Stashed changes
 	PrivateKey     string
 	RootCert       string
 	RotationPeriod time.Duration

@@ -26,28 +26,32 @@
 
 
 [[constraint]]
-  name = "github.com/improbable-eng/grpc-web"
-  version = "0.6.2"
+  name = "github.com/golang/mock"
+  version = "1.1.1"
+
+[[constraint]]
+  name = "github.com/labstack/echo"
+  version = "3.3.5"
 
 [[constraint]]
   branch = "master"
-  name = "github.com/micro/go-log"
+  name = "github.com/micro/cli"
 
 [[constraint]]
   name = "github.com/micro/go-micro"
   version = "0.10.0"
 
 [[constraint]]
-  name = "github.com/sirupsen/logrus"
-  version = "1.0.6"
+  name = "github.com/micro/go-plugins"
+  version = "0.11.0"
 
 [[constraint]]
-  branch = "master"
+  branch = "style"
   name = "github.com/srleyva/turbine"
 
 [[constraint]]
   branch = "master"
-  name = "github.com/tudurom/micro-logrus"
+  name = "golang.org/x/net"
 
 [prune]
   go-tests = true
