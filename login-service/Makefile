@@ -1,5 +1,5 @@
 BINARY = login
-VERSION=0.0.1
+VERSION=0.1.1
 # COMMIT=$(shell git rev-parse HEAD)
 # BRANCH=$(shell git rev-parse --abbrev-ref HEAD)
 GIT_USERNAME=srleyva

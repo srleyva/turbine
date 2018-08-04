@@ -18,7 +18,7 @@ spec:
 		"login-service",
                 "--registry=kubernetes"
 	  ]
-          image: sleyva97/login-service:0.1.0
+          image: sleyva97/login-service:0.1.1
           imagePullPolicy: Always
           ports:
           - containerPort: 1323
