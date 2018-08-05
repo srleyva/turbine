@@ -2,7 +2,6 @@ package login
 
 import (
 	"github.com/labstack/echo"
-	"github.com/labstack/gommon/log"
 	authProto "github.com/srleyva/turbine/authentication-service/proto/authentication"
 	userProto "github.com/srleyva/turbine/user-service/proto/user"
 	context "golang.org/x/net/context"
@@ -46,8 +45,6 @@ func (h *Handler) Register(c echo.Context) (err error) {
 	if err = c.Bind(u); err != nil {
 		return &echo.HTTPError{Code: http.StatusBadRequest, Message: err}
 	}
-
-	log.Info("User: ", u)
 
 	response, err := register(h.Auth, u)
 	if err != nil {
