@@ -1,6 +1,7 @@
-package Authentication
+package authentication_test
 
 import (
+	. "github.com/srleyva/turbine/authentication-service/pkg/authentication"
 	"strings"
 	"testing"
 )
