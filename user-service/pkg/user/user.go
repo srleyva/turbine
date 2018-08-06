@@ -21,10 +21,16 @@ func (s *Service) CreateUser(ctx context.Context, req *proto.User, res *proto.Us
 	if req.Username == "" || req.Password == "" {
 		return errors.New("empty username or password in request")
 	}
+
 	if _, err := s.Users.Get(req.Username); err == nil {
 		return errors.New("Username already exists")
 	}
-	req.UID = uuid.NewV4().String()
+	uid, err := uuid.NewV4()
+	if err != nil {
+		return err
+	}
+
+	req.UID = uid.String()
 	response, err := s.Users.Create(req)
 	if err != nil {
 		return err
@@ -37,11 +43,14 @@ func (s *Service) CreateUser(ctx context.Context, req *proto.User, res *proto.Us
 
 func (s *Service) GetUsers(ctx context.Context, req *proto.UsersRequest, stream proto.UserService_GetUsersStream) error {
 	allUsers, _ := s.Users.GetAll()
-	for index, user := range *allUsers {
-		user.Password = ""
-		if req.All || req.Count > int64(index) {
-			if err := stream.Send(&user); err != nil {
-				return err
+	users := *allUsers
+	for i := 0; i < len(users); i++ {
+		user := users[i]
+		if user != (proto.User{}) {
+			if req.All || req.Count > int64(i) {
+				if err := stream.Send(&user); err != nil {
+					return err
+				}
 			}
 		}
 	}
