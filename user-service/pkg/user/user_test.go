@@ -1,90 +1,103 @@
-package user
+package user_test
 
 import (
+	"github.com/golang/mock/gomock"
+	userMock "github.com/srleyva/turbine/user-service/mocks"
+	user "github.com/srleyva/turbine/user-service/pkg/user"
 	proto "github.com/srleyva/turbine/user-service/proto/user"
 	context "golang.org/x/net/context"
 	"reflect"
 	"testing"
 )
 
-// Mocks
-type mockGetUsersStream struct {
-	Users []proto.User
+type tester struct {
+	ctrl      *gomock.Controller
+	datastore *user.DataStore
+	service   *user.Service
 }
 
-func (s mockGetUsersStream) SendMsg(interface{}) error {
-	return nil
+func newTester(t *testing.T) *tester {
+	ctrl := gomock.NewController(t)
+	datastore := &user.DataStore{}
+	service := &user.Service{datastore}
+	return &tester{ctrl, datastore, service}
 }
 
-func (s mockGetUsersStream) RecvMsg(interface{}) error {
-	return nil
-}
-
-func (s mockGetUsersStream) Close() error {
-	return nil
-}
-
-func (s mockGetUsersStream) Send(user *proto.User) error {
-	updated := append(s.Users, *user)
-	s.Users = updated
-	return nil
-}
-
-// Local DataStore Tests
-var datastore = DataStore{}
-var service = Service{&datastore}
-var testUser = &proto.User{
-	FirstName: "test",
-	LastName:  "user",
-	Username:  "tuser",
-	Password:  "Test",
-}
-
-func TestCreate(t *testing.T) {
-	user, err := datastore.Create(testUser)
-	if err != nil {
-		t.Errorf("error returned where not expected: %v", err)
-	}
-
-	if !reflect.DeepEqual(testUser, user) {
-		t.Errorf("Expected: %v \n Actual: %v", testUser, user)
-	}
-
-}
-
-// Service Functions Tests
 func TestCreateUser(t *testing.T) {
-	response := new(proto.UserResponse)
-	testUser := &proto.User{
-		FirstName: "test",
-		LastName:  "user",
-		Username:  "tuser",
-		Password:  "Test",
-	}
-	if err := service.CreateUser(context.TODO(), testUser, response); err != nil {
+	createTester := newTester(t)
+
+	testUser := &proto.User{Username: "thisdude", Password: "test"}
+	resp := &proto.UserResponse{}
+
+	if err := createTester.service.CreateUser(context.Background(), testUser, resp); err != nil {
 		t.Errorf("error returned where not expected: %v", err)
 	}
 
-	if response.User.Password != "" {
-		t.Errorf("Password returned to client on create")
-	}
+	testUser.Password = ""
 
-	testUser.Username = ""
-	if err := service.CreateUser(context.TODO(), testUser, response); err == nil {
-		t.Errorf("error not returned where not expected: %v", testUser)
+	if !reflect.DeepEqual(testUser, resp.User) {
+		t.Errorf("incorrect user information returned: \n Have: %v \n Want: %v", resp.User, testUser)
 	}
-
 }
 
 func TestGetUsers(t *testing.T) {
-	testStream := mockGetUsersStream{}
+	getUsersTester := newTester(t)
 
-	t.Run("test that it returns all users error free", func(t *testing.T) {
-		testReq := &proto.UsersRequest{All: true}
-		err := service.GetUsers(context.TODO(), testReq, testStream)
-		if err != nil {
+	// Set up users in database to retrieve
+	testUser1 := &proto.User{Username: "thisdude", Password: "test"}
+	testUser2 := &proto.User{Username: "thatdude", Password: "test"}
+	testUser3 := &proto.User{Username: "thatotherdude", Password: "test"}
+	testUser4 := &proto.User{Username: "dude", Password: "test"}
+	users := []*proto.User{testUser1, testUser2, testUser3, testUser4}
+	for _, user := range users {
+		resp := &proto.UserResponse{}
+		if err := getUsersTester.service.CreateUser(context.Background(), user, resp); err != nil {
+			t.Errorf("err inserting user: %v", err)
+		}
+	}
+
+	t.Run("test return all users", func(t *testing.T) {
+		req := &proto.UsersRequest{All: true}
+		stream := userMock.NewMockUserService_GetUsersStream(getUsersTester.ctrl)
+		first := stream.EXPECT().Send(testUser1).Return(nil)
+		second := stream.EXPECT().Send(testUser2).After(first).Return(nil)
+		third := stream.EXPECT().Send(testUser3).After(second).Return(nil)
+		stream.EXPECT().Send(testUser4).After(third).Return(nil)
+
+		if err := getUsersTester.service.GetUsers(context.Background(), req, stream); err != nil {
+			t.Errorf("err returned where not expected: %v", err)
+		}
+	})
+
+	t.Run("return number users", func(t *testing.T) {
+		req := &proto.UsersRequest{Count: 2}
+		stream := userMock.NewMockUserService_GetUsersStream(getUsersTester.ctrl)
+		first := stream.EXPECT().Send(testUser1).Return(nil)
+		stream.EXPECT().Send(testUser2).After(first).Return(nil)
+
+		if err := getUsersTester.service.GetUsers(context.Background(), req, stream); err != nil {
 			t.Errorf("err returned where not expected: %v", err)
 		}
 
 	})
+}
+
+func TestGetUser(t *testing.T) {
+	getUserTester := newTester(t)
+
+	// Set up user in database to retrieve
+	testUser := &proto.User{Username: "thisdude", Password: "test"}
+	resp := &proto.UserResponse{}
+	getUserTester.service.CreateUser(context.Background(), testUser, resp)
+
+	//Test retrieval of user
+	req := &proto.UserRequest{Username: "thisdude"}
+
+	if err := getUserTester.service.GetUser(context.Background(), req, resp); err != nil {
+		t.Errorf("err returned where not expected: %v", err)
+	}
+
+	if !reflect.DeepEqual(resp.User, testUser) {
+		t.Errorf("incorrect user information returned: \n Have: %v \n Want: %v", resp.User, testUser)
+	}
 }
