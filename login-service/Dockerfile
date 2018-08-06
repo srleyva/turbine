@@ -8,7 +8,8 @@ RUN ng build --prod --build-optimizer=false --base-href=/static/
 
 # Build Go App
 FROM golang:alpine AS server
-RUN apk update && apk add make git
+RUN apk update && apk add make git curl
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 RUN mkdir -p $GOPATH/src/github.com/srleyva/turbine/login-service
 WORKDIR $GOPATH/src/github.com/srleyva/turbine/login-service
 ADD ./ ./
