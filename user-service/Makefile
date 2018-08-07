@@ -1,5 +1,5 @@
 BINARY = user-service
-VERSION=0.1.0
+VERSION=0.1.1
 GITHUB_USERNAME=srleyva
 GITHUB_REPO=${GITHUB_USERNAME}/${BINARY}
 DOCKER_REPO=sleyva97/$(BINARY)
@@ -12,7 +12,10 @@ plugin = cmd/server/plugin.go
 server = cmd/server/server.go
 
 
-all: format build-linux-server
+all: format dep build-linux-server
+
+dep:
+	dep ensure -v
 
 format:
 	go fmt $(pkgs)

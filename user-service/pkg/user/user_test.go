@@ -29,15 +29,24 @@ func TestCreateUser(t *testing.T) {
 	testUser := &proto.User{Username: "thisdude", Password: "test"}
 	resp := &proto.UserResponse{}
 
-	if err := createTester.service.CreateUser(context.Background(), testUser, resp); err != nil {
-		t.Errorf("error returned where not expected: %v", err)
-	}
+	t.Run("test insert user is correct", func(t *testing.T) {
 
-	testUser.Password = ""
+		if err := createTester.service.CreateUser(context.Background(), testUser, resp); err != nil {
+			t.Errorf("error returned where not expected: %v", err)
+		}
 
-	if !reflect.DeepEqual(testUser, resp.User) {
-		t.Errorf("incorrect user information returned: \n Have: %v \n Want: %v", resp.User, testUser)
-	}
+		testUser.Password = ""
+
+		if !reflect.DeepEqual(testUser, resp.User) {
+			t.Errorf("incorrect user information returned: \n Have: %v \n Want: %v", resp.User, testUser)
+		}
+	})
+
+	t.Run("test where user already exists", func(t *testing.T) {
+		if err := createTester.service.CreateUser(context.Background(), testUser, resp); err == nil {
+			t.Errorf("error not returned when user exists in database")
+		}
+	})
 }
 
 func TestGetUsers(t *testing.T) {

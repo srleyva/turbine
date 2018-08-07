@@ -12,10 +12,13 @@ plugin = cmd/server/plugin.go
 server = cmd/server/server.go
 
 
-all: format build-linux
+all: format dep build-linux
 
 format:
 	go fmt $(pkgs)
+
+dep:
+	dep ensure -v
 
 test:
 	go test `go list ./... | grep -v apis | grep -v client`

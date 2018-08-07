@@ -25,11 +25,7 @@ func (s *Service) CreateUser(ctx context.Context, req *proto.User, res *proto.Us
 	if _, err := s.Users.Get(req.Username); err == nil {
 		return errors.New("Username already exists")
 	}
-	uid, err := uuid.NewV4()
-	if err != nil {
-		return err
-	}
-
+	uid := uuid.NewV4()
 	req.UID = uid.String()
 	response, err := s.Users.Create(req)
 	if err != nil {
